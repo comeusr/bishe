@@ -11,7 +11,7 @@ import datetime
 start=datetime.datetime.fromtimestamp(time.mktime(time.strptime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())),"%Y-%m-%d %H:%M:%S")))
 # path=r'E:\svm结构性断点论文\20180214\WTIData.xls'
 path=r'C:\Users\Ziyi Wang\Desktop\bishe\realize wangyi\Data\Brent-11-15.xlsx'
-resultsPath = r"C:\Users\Ziyi Wang\Desktop\bishe\realize wangyi\bishe\results\\"
+resultsPath = r"C:\Users\Ziyi Wang\Desktop\bishe\realize wangyi\bishe\data\trend\\"
 df = pd.read_excel(path,sheet_name='Sheet1',header=None)
 
 
@@ -418,10 +418,9 @@ if __name__ == '__main__':
         MSEtrendc.append(dataList[i].get('MSE_FinalTrend')[2])
         MSEtrendd.append(dataList[i].get('MSE_FinalTrend')[3])
         MSEtrende.append(dataList[i].get('MSE_FinalTrend')[4])
-        temp = dataList[i].get('MSE_finalTrend')[5]
-        MSEtrendf.append(dataList[i].get('MSE_finalTrend')[5])
-        MSEtrendg.append(dataList[i].get('MSE_finalTrend')[6])
-        MSEtrendh.append(dataList[i].get('MSE_finalTrend')[7])
+        MSEtrendf.append(dataList[i].get('MSE_FinalTrend')[5])
+        MSEtrendg.append(dataList[i].get('MSE_FinalTrend')[6])
+        MSEtrendh.append(dataList[i].get('MSE_FinalTrend')[7])
         MADtrenda.append(dataList[i].get('MAD_FinalTrend')[0])
         MADtrendb.append(dataList[i].get('MAD_FinalTrend')[1])
         MADtrendc.append(dataList[i].get('MAD_FinalTrend')[2])
