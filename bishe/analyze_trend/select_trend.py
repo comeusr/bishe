@@ -4,7 +4,7 @@ import time
 import datetime
 start=datetime.datetime.fromtimestamp(time.mktime(time.strptime(time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time())),"%Y-%m-%d %H:%M:%S")))
 
-path = r'C:\Users\Ziyi Wang\Desktop\bishe\realize wangyi\bishe\results\Poly-6-Params-2019-04-16.csv'
+path = r'C:\Users\Ziyi Wang\Desktop\bishe\realize wangyi\bishe\data\trend\Poly-22-Params-2019-04-25.csv'
 oil_price_path = r'C:\Users\Ziyi Wang\Desktop\bishe\realize wangyi\Data\Brent-11-25.xlsm'
 trend_df = pd.read_csv(path,header=0)
 price_df = pd.read_excel(oil_price_path,header=None,sheet_name='Sheet1')

@@ -13,6 +13,9 @@ trendb = np.array(trend_df.loc[:, 'MSEtrendb'].astype('float64'))
 trendc = np.array(trend_df.loc[:, 'MSEtrendc'].astype('float64'))
 trendd = np.array(trend_df.loc[:, 'MSEtrendd'].astype('float64'))
 trende = np.array(trend_df.loc[:, 'MSEtrende'].astype('float64'))
+trendf = np.array(trend_df.loc[:, 'MSEtrendf'].astype('float64'))
+trendg = np.array(trend_df.loc[:, 'MSEtrendg'].astype('float64'))
+trendh = np.array(trend_df.loc[:, 'MSEtrendh'].astype('float64'))
 
 STEP = 22
 
@@ -21,11 +24,15 @@ def trend2oil(t, step=STEP):
     oil_price = []
     if t <= step:
         for time in range(t+1):
-            temp_result = trenda[t-time]*np.power(time,4)+trendb[t-time]*np.power(time,3)+trendc[t-time]*np.power(time,2)+trendd[t-time]*time+trende[t-time]
+            temp_result = trenda[t-time]*np.power(time,7)+trendb[t-time]*np.power(time,6)+trendc[t-time]*np.power(time,5)\
+                          +trendd[t-time]*np.power(time,4)+trende[t-time]*np.power(time,3)+trendf[t-time]+np.power(time,2)\
+                          +trendg[t-time]*time+trendh[t-time]
             oil_price.append(temp_result)
     else:
         for time in range(step):
-            temp_result = trenda[t-time]*np.power(time,4)+trendb[t-time]*np.power(time,3)+trendc[t-time]*np.power(time,2)+trendd[t-time]*time+trende[t-time]
+            temp_result = trenda[t - time] * np.power(time, 7) + trendb[t - time] * np.power(time, 6) + trendc[t - time] * np.power(time, 5) \
+                          + trendd[t - time] * np.power(time, 4) + trende[t - time] * np.power(time, 3) + trendf[t - time] + np.power(time, 2)\
+                          +trendg[t - time] * time + trendh[t-time]
             oil_price.append(temp_result)
             pass
 
@@ -54,8 +61,8 @@ def select_trend(t, step=STEP):
         evaluation.append(abs(true_price-price))
     best_relative_index = evaluation.index(min(evaluation))
     best_index = t-best_relative_index
-    best_price = regression_price[evaluation.index(min(evaluation))]
-    return best_index, best_relative_index, best_price
+    price = regression_price[evaluation.index(min(evaluation))]
+    return best_index, best_relative_index, price
 
 
 def main():
@@ -64,6 +71,9 @@ def main():
     best_trendc = np.zeros(len(trendc))
     best_trendd = np.zeros(len(trendd))
     best_trende = np.zeros(len(trende))
+    best_trendf = np.zeros(len(trendf))
+    best_trendg = np.zeros(len(trendg))
+    best_trendh = np.zeros(len(trendh))
     relative_index = []
     for i in range(len(trenda)):
         best_index, best_relative_index, best_price = select_trend(i)
@@ -72,19 +82,26 @@ def main():
         best_trendc[i] = trendc[best_index]
         best_trendd[i] = trendd[best_index]
         best_trende[i] = trende[best_index]
+        best_trendf[i] = trendf[best_index]
+        best_trendg[i] = trendg[best_index]
+        best_trendh[i] = trendh[best_index]
         relative_index.append(best_relative_index)
         x = best_relative_index
-        compute_best_price = best_trenda[i]*np.power(x, 4)+best_trendb[i]*np.power(x, 3)+best_trendc[i]*np.power(x, 2)\
-                             + best_trendd[i]*x+best_trende[i]
+        compute_best_price = best_trenda[i]*np.power(x, 7)+best_trendb[i]*np.power(x, 6)+best_trendc[i]*np.power(x, 5)\
+                             + best_trendd[i]*np.power(x, 4)+best_trende[i]*np.power(x, 3)+best_trendf[i]*np.power(x,2)\
+                             + best_trendg[i]*x+best_trendh[i]
         # print(compute_best_price, len(compute_best_price))
+        # print('compute_best_price',compute_best_price)
         if compute_best_price != best_price:
             print('index: '+str(i)+'计算油价出错')
-        if i == 216:
-            print(i)
-            print('真实油价', price_df.loc[i,1])
-            print(trend2oil(i))
-            print(select_trend(i))
-            print(compute_best_price)
+            print('compute_best_price',compute_best_price)
+            print('best_price', best_price)
+        # if i == 216:
+        #     print(i)
+        #     print('真实油价', price_df.loc[i,1])
+        #     print(trend2oil(i))
+        #     print(select_trend(i))
+        #     print(compute_best_price)
         # if i <= 5:
         #     print(true_price)
         #     print(best_lag)

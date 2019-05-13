@@ -200,7 +200,7 @@ def getResultForPredict(a, b):
              +kc[6]*trendc6[b]
     yd_ols = kd[0] + kd[1] * trendd1[b] + kd[2] * trendd2[b] +kd[3]*trendd3[b]+kd[4]*trendd4[b]+kd[5]*trendd5[b]\
              +kd[6]*trendd6[b]
-    ye_ols = ke[0] + kd[1] * trende1[b] + kd[2] * trende2[b] +ke[3]*trende3[b]+ke[4]*trende4[b]+ke[5]*trende5[b]\
+    ye_ols = ke[0] + ke[1] * trende1[b] + ke[2] * trende2[b] +ke[3]*trende3[b]+ke[4]*trende4[b]+ke[5]*trende5[b]\
              +ke[6]*trende6[b]
     y_index_ols = k_index[0]+k_index[1]*relative_index1[b]+k_index[2]*relative_index2[b]+k_index[3]*relative_index3[b]
     return ya_ols, yb_ols,yc_ols,yd_ols,ye_ols,y_index_ols

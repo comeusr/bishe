@@ -4,7 +4,7 @@ import numpy as np
 import statsmodels.api as sm
 import statsmodels.tsa.api as st
 
-path = r'C:\Users\Ziyi Wang\Desktop\bishe\realize wangyi\bishe\data\best_trend\best_trend-2019-03-24(3).csv'
+path = r'C:\Users\Ziyi Wang\Desktop\bishe\realize wangyi\bishe\data\best_trend\window_best_trend-22-2019-04-25(3).csv'
 oil_price_path = r'C:\Users\Ziyi Wang\Desktop\bishe\realize wangyi\Data\Brent-11-25.xlsm'
 df = pd.read_csv(path,header=0)
 price_df = pd.read_excel(oil_price_path,header=None,sheet_name='Sheet1')
@@ -21,32 +21,63 @@ trendb = np.array(df.loc[:, 'trendb'].astype('float64'))
 trendc = np.array(df.loc[:, 'trendc'].astype('float64'))
 trendd = np.array(df.loc[:, 'trendd'].astype('float64'))
 trende = np.array(df.loc[:, 'trende'].astype('float64'))
-
+trendf = np.array(df.loc[:, 'trendf']).astype('float64')
+trendg = np.array(df.loc[:, 'trendg']).astype('float64')
+trendh = np.array(df.loc[:, 'trendh']).astype('float64')
+relative_index = np.array(df.loc[:,'relative_index']).astype('float64')
 trenda1 = [""]
 trendb1 = [""]
 trendc1 = [""]
 trendd1 = [""]
 trende1 = [""]
+trendf1 = ['']
+trendg1 = ['']
+trendh1 = ['']
+relative_index1 = ['']
 trenda2 = ["", ""]
 trendb2 = ["", ""]
 trendc2 = ["", ""]
 trendd2 = ["", ""]
 trende2 = ["", ""]
+trendf2 = ['']*2
+trendg2 = ['']*2
+trendh2 = ['']*2
+relative_index2 = ['', '']
 trenda3 = ["", "", ""]
 trendb3 = ["", "", ""]
 trendc3 = ["", "", ""]
 trendd3 = ["", "", ""]
 trende3 = ["", "", ""]
+trendf3 = ['']*3
+trendg3 = ['']*3
+trendh3 = ['']*3
+relative_index3 = ['', '', '']
 trenda4 = ["", "", "", ""]
 trendb4 = ["", "", "", ""]
 trendc4 = ["", "", "", ""]
 trendd4 = ["", "", "", ""]
 trende4 = ["", "", "", ""]
+trendf4 = ['']*4
+trendg4 = ['']*4
+trendh4 = ['']*4
+relative_index4 = ['','','','']
 trenda5 = ["", "", "", "", ""]
 trendb5 = ["", "", "", "", ""]
 trendc5 = ["", "", "", "", ""]
 trendd5 = ["", "", "", "", ""]
 trende5 = ["", "", "", "", ""]
+trendf5 = ['']*5
+trendg5 = ['']*5
+trendh5 = ['']*5
+trenda6 = ['','','','','','']
+trendb6 = ['','','','','','']
+trendc6 = ['','','','','','']
+trendd6 = ['','','','','','']
+trende6 = ['','','','','','']
+trendf6 = ['']*6
+trendg6 = ['']*6
+trendh6 = ['']*6
+relative_index5 = ['','','','','']
 '''
 以下循环构造滞后各项的数组
 '''
@@ -56,30 +87,59 @@ for i in range(len(trenda) - 1):
     trendc1.append(trendc[i])
     trendd1.append(trendd[i])
     trende1.append(trende[i])
+    trendf1.append(trendf[i])
+    trendg1.append(trendg[i])
+    trendh1.append(trendh[i])
+    relative_index1.append(relative_index[i])
     if i <= len(trenda) - 3:
         trenda2.append(trenda[i])
         trendb2.append(trendb[i])
         trendc2.append(trendc[i])
         trendd2.append(trendd[i])
         trende2.append(trende[i])
+        trendf2.append(trendf[i])
+        trendg2.append(trendg[i])
+        trendh2.append(trendh[i])
+        relative_index2.append(relative_index[i])
     if i <= len(trenda) - 4:
         trenda3.append(trenda[i])
         trendb3.append(trendb[i])
         trendc3.append(trendc[i])
         trendd3.append(trendd[i])
         trende3.append(trende[i])
+        trendf3.append(trendf[i])
+        trendg3.append(trendg[i])
+        trendh3.append(trendh[i])
+        relative_index3.append(relative_index[i])
     if i <= len(trenda) - 5:
         trenda4.append(trenda[i])
         trendb4.append(trendb[i])
         trendc4.append(trendc[i])
         trendd4.append(trendd[i])
         trende4.append(trende[i])
+        trendf4.append(trendf[i])
+        trendg4.append(trendg[i])
+        trendh4.append(trendh[i])
+        relative_index4.append(relative_index[i])
     if i <= len(trenda) - 6:
         trenda5.append(trenda[i])
         trendb5.append(trendb[i])
         trendc5.append(trendc[i])
         trendd5.append(trendd[i])
         trende5.append(trende[i])
+        trendf5.append(trendf[i])
+        trendg5.append(trendg[i])
+        trendh5.append(trendh[i])
+        relative_index5.append(relative_index[i])
+    if i <= len(trenda)-7:
+        trenda6.append(trenda[i])
+        trendb6.append(trendb[i])
+        trendc6.append(trendc[i])
+        trendd6.append(trendd[i])
+        trende6.append(trende[i])
+        trendf6.append(trendf[i])
+        trendg6.append(trendg[i])
+        trendh6.append(trendh[i])
 
 
 def getRegressResult(a, b, alpha):
@@ -90,39 +150,66 @@ def getRegressResult(a, b, alpha):
     xc = []
     xd = []
     xe = []
+    xf = []
+    xg = []
+    xh = []
+    x_index = []
     ya = []
     yb = []
     yc = []
     ye = []
     yd = []
+    yf = []
+    yg = []
+    yh = []
+    y_index = []
     for i in range(a, b + 1):
-        xa.append([trenda1[i], trenda2[i],trenda3[i]])#,trenda4[i]])#,trenda5[i]])
-        xb.append([trendb1[i], trendb2[i],trendb3[i]])#,trendb4[i]])#,trendb5[i]])
-        xc.append([trendc1[i], trendc2[i],trendc3[i]])#,trendc4[i]])#,trendc5[i]])
-        xd.append([trendd1[i], trendd2[i],trendd3[i]])#,trendd4[i]])#,trendd5[i]])
-        xe.append([trende1[i], trende2[i],trende3[i]])#,trende4[i]])#,trende5[i]])
+        xa.append([trenda1[i], trenda2[i],trenda3[i],trenda4[i],trenda5[i],trenda6[i]])
+        xb.append([trendb1[i], trendb2[i],trendb3[i],trendb4[i],trendb5[i],trendb6[i]])
+        xc.append([trendc1[i], trendc2[i],trendc3[i],trendc4[i],trendc5[i],trendc6[i]])
+        xd.append([trendd1[i], trendd2[i],trendd3[i],trendd4[i],trendd5[i],trendd6[i]])
+        xe.append([trende1[i], trende2[i],trende3[i],trende4[i],trende5[i],trende6[i]])
+        xf.append([trendf1[i], trendf2[i],trendf3[i],trendf4[i],trendf5[i],trendf6[i]])
+        xg.append([trendg1[i], trendg2[i],trendg3[i],trendg4[i],trendg5[i],trendg6[i]])
+        xh.append([trende1[i], trendh2[i],trendh3[i],trendh4[i],trendh5[i],trendh6[i]])
+        x_index.append([relative_index1[i], relative_index2[i], relative_index3[i]])
         ya.append(trenda[i])
         yb.append(trendb[i])
         yc.append(trendc[i])
         yd.append(trendd[i])
         ye.append(trende[i])
+        yf.append(trendf[i])
+        yg.append(trendg[i])
+        yh.append(trendh[i])
+        y_index.append(relative_index[i])
     xa = np.array(xa)
     xb = np.array(xb)
     xc = np.array(xc)
     xd = np.array(xd)
     xe = np.array(xe)
-
+    xf = np.array(xf)
+    xg = np.array(xg)
+    xh = np.array(xh)
+    x_index = np.array(x_index)
     xa = sm.add_constant(xa)
     xb = sm.add_constant(xb)
     xc = sm.add_constant(xc)
     xd = sm.add_constant(xd)
     xe = sm.add_constant(xe)
+    xf = sm.add_constant(xf)
+    xg = sm.add_constant(xg)
+    xh = sm.add_constant(xh)
+    x_index = sm.add_constant(x_index)
 
     resulta = sm.OLS(ya, xa).fit()
     resultb = sm.OLS(yb, xb).fit()
     resultc = sm.OLS(yc, xc).fit()
     resultd = sm.OLS(yd, xd).fit()
     resulte = sm.OLS(ye, xe).fit()
+    resultf = sm.OLS(yf, xf).fit()
+    resultg = sm.OLS(yg, xg).fit()
+    resulth = sm.OLS(yh, xh).fit()
+    result_index = sm.OLS(y_index, x_index).fit()
 
     #   print(resulta.summary(),resultb.summary(),resultc.summary())
     '''
@@ -145,8 +232,11 @@ def getRegressResult(a, b, alpha):
     kc = resultc.params
     kd = resultd.params
     ke = resulte.params
-
-    return ka, kb,kc,kd,ke
+    kf = resultf.params
+    kg = resultg.params
+    kh = resulth.params
+    k_index = result_index.params
+    return ka, kb, kc, kd, ke, kf,kh,kg, k_index
 
 
 # 设定显著性水平
@@ -163,20 +253,33 @@ def getResultForPredict(a, b):
 	'''
     #   print(b,trenda[b],trendb[b])
     # 获取向量回归参数
-    ka, kb,kc,kd,ke = getRegressResult(a, b, alpha)
+    ka, kb,kc,kd,ke,kf,kg,kh, k_index = getRegressResult(a, b, alpha)
     #  print(ka,kb)
-    ya_ols = ka[0] + ka[1] * trenda1[b] + ka[2] * trenda2[b] +ka[3]*trenda3[b]#+ka[4]*trenda4[b]#+ka[5]*trenda5[b]
-    yb_ols = kb[0] + kb[1] * trendb1[b] + kb[2] * trendb2[b] +kb[3]*trendb3[b]#+kb[4]*trendb4[b]#+kb[5]*trendb5[b]
-    yc_ols = kc[0] + kc[1] * trendc1[b] + kc[2] * trendc2[b] +kc[3]*trendc3[b]#+kc[4]*trendc4[b]#+kc[5]*trendc5[b]
-    yd_ols = kd[0] + kd[1] * trendd1[b] + kd[2] * trendd2[b] +kd[3]*trendd3[b]#+kd[4]*trendd4[b]#+kd[5]*trendd5[b]
-    ye_ols = ke[0] + kd[1] * trende1[b] + kd[2] * trende2[b] +ke[3]*trende3[b]#+ke[4]*trende4[b]#+ke[5]*trende5[b]
-    return ya_ols, yb_ols,yc_ols,yd_ols,ye_ols
+    ya_ols = ka[0] + ka[1] * trenda1[b] + ka[2] * trenda2[b] +ka[3]*trenda3[b]+ka[4]*trenda4[b]+ka[5]*trenda5[b]\
+             +ka[6]*trenda6[b]
+    yb_ols = kb[0] + kb[1] * trendb1[b] + kb[2] * trendb2[b] +kb[3]*trendb3[b]+kb[4]*trendb4[b]+kb[5]*trendb5[b]\
+             +kb[6]*trendb6[b]
+    yc_ols = kc[0] + kc[1] * trendc1[b] + kc[2] * trendc2[b] +kc[3]*trendc3[b]+kc[4]*trendc4[b]+kc[5]*trendc5[b]\
+             +kc[6]*trendc6[b]
+    yd_ols = kd[0] + kd[1] * trendd1[b] + kd[2] * trendd2[b] +kd[3]*trendd3[b]+kd[4]*trendd4[b]+kd[5]*trendd5[b]\
+             +kd[6]*trendd6[b]
+    ye_ols = ke[0] + ke[1] * trende1[b] + ke[2] * trende2[b] +ke[3]*trende3[b]+ke[4]*trende4[b]+ke[5]*trende5[b]\
+             +ke[6]*trende6[b]
+    yf_ols = kf[0] + kf[1] * trendf1[b] + kf[2] * trendf2[b] +ke[3]*trendf3[b]+kf[4]*trendf4[b]+kf[5]*trendf5[b]\
+             +kf[6]*trendf6[b]
+    yg_ols = kg[0] + kg[1] * trendg1[b] + kd[2] * trendg2[b] +kg[3]*trendg3[b]+kg[4]*trendg4[b]+kg[5]*trendg5[b]\
+             +kg[6]*trendg6[b]
+    yh_ols = kh[0] + kh[1] * trendh1[b] + kh[2] * trendh2[b] +kh[3]*trendh3[b]+kh[4]*trendh4[b]+kh[5]*trendh5[b]\
+             +kh[6]*trendh6[b]
+
+
+    y_index_ols = k_index[0]+k_index[1]*relative_index1[b]+k_index[2]*relative_index2[b]+k_index[3]*relative_index3[b]
+    return ya_ols, yb_ols,yc_ols,yd_ols,ye_ols,y_index_ols
 
 
 # TODO np.power函数是用不规范
-def trend2oil(t, step = 6):
+def trend2oil(t, x, step=6):
     oil_price = []
-    x = t + 1
     if t <= step:
         for time in range(t+1):
             temp_result = trenda[t-time]*np.power(x,4)+trendb[t-time]*np.power(x,3)+trendc[t-time]*np.power(x,2)+trendd[t-time]*(x)+trende[-time]
@@ -202,7 +305,7 @@ def get_best_price(i):
 
 def main():
     # 设置回归区间
-    a = 5;
+    a = 6;
     # b=df.shape[0]-1-1
     avError = 0
     mape = 0
@@ -212,14 +315,20 @@ def main():
     # 第二次用(a,b+1)预测(b+2,step+b+2)的趋势，以此类推
     oil_price_list = []
     for i in range(df.shape[0] - 6, df.shape[0] - 1):
-        ya_ols, yb_ols,yc_ols,yd_ols,ye_ols = getResultForPredict(a, i)
-        oil_price = ya_ols*(np.power(price_df.loc[i,0],4))+yb_ols*(np.power(price_df.loc[i,0],3))+yc_ols*(np.power(price_df.loc[i,0],2))+yd_ols*price_df.loc[i,0]+ye_ols
-        fitting_price = df.loc[i,'trenda']*np.power(price_df.loc[i,0],4)+df.loc[i,'trendb']*np.power(price_df.loc[i,0],3)+df.loc[i, 'trendc']*np.power(price_df.loc[i,0],2)\
-                        +df.loc[i, 'trendd']*np.power(price_df.loc[i,0],1)+df.loc[i, 'trende']
+        ya_ols, yb_ols,yc_ols,yd_ols,ye_ols,index_ols = getResultForPredict(a, i)
+        # TODO x还可以从经验分布里随机抽取
+        x = index_ols
+        # print('index_ols', index_ols)
+        fit_x = df.loc[i,'relative_index']
+        oil_price = ya_ols*(np.power(x,4))+yb_ols*(np.power(x,3))+yc_ols*(np.power(x,2))+yd_ols*x+ye_ols
+        fitting_price = df.loc[i,'trenda']*np.power(fit_x,4)+df.loc[i,'trendb']*np.power(fit_x,3)+df.loc[i, 'trendc']*np.power(fit_x,2)\
+                        +df.loc[i, 'trendd']*fit_x+df.loc[i, 'trende']
         oil_price_list.append(oil_price)
         oil_error = abs(oil_price-price_df.loc[i,1])
+
         if i == df.shape[0] - 6:
             i = df.shape[0] - 7
+
         error = (0.5) * (np.square(ya_ols - trenda[i + 1]) + np.square(yb_ols - trendb[i + 1])  +np.square(yc_ols-trendc[i+1])
                             +np.square(yd_ols-trendd[i+1])+np.square(ye_ols-trende[i+1]))
         dmape = np.average(
